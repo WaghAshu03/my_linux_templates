@@ -1,0 +1,6 @@
+# Ignore all .desktop files in chromium_script/ directory
+chromium_scripts/*.desktop
+
+# Ignore any file that starts with 'test'
+test*
+temp*
