@@ -121,9 +121,13 @@ for file_path in file_paths:
         updated_file_content = "\n".join(updated_file_content)
 
         if file_content != updated_file_content:
-            backup_file_path = f"{directory}/{get_formatted_time()} Backup-{get_random_string(5)}-{file_name}"
+            if not path.exists(f"{directory}/Backup Files"):
+                system(f"mkdir '{directory}/Backup Files'")
+                print(f"-> Created Directory: {directory}/Backup Files")
+
+            backup_file_path = f"{directory}/Backup Files/{get_formatted_time()} Backup-{get_random_string(5)}-{file_name}"
             while path.exists(backup_file_path):
-                backup_file_path = f"{directory}/Backup|{get_formatted_time()} - {get_random_string(5)} - {file_name}"
+                backup_file_path = f"{directory}/Backup Files/Backup|{get_formatted_time()} - {get_random_string(5)} - {file_name}"
 
             with open(backup_file_path, "w") as f:
                 f.write(file_content)
