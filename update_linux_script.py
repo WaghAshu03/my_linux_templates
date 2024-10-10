@@ -1,6 +1,5 @@
 from os import get_terminal_size, getuid, path, system
 
-
 def running_as_root() -> bool:
     return getuid() == 0
 
@@ -90,5 +89,11 @@ for i, script in enumerate(scripts):
     print(return_color_and_style("Running script    :", "#188CFD", "bold"), script)
     print("=" * get_terminal_size().columns)
     if system(script) != 0:
-        print("Invalid Script:", script)
-        break
+        print("Failed to execute script:", script)
+        exit(1)
+
+print("=" * get_terminal_size().columns)
+usr_input = input("Want to reboot? (y/N): ")
+
+if(usr_input == 'y' or usr_input == 'Y'):
+	system("reboot")
