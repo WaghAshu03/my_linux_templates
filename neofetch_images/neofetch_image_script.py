@@ -1,13 +1,15 @@
 import glob
 import json
 import os
+import time
 from random import choice
 
+# Start the timer
+start_time = time.time()
 # Look for environment variables containing "VSCODE"
-vscode_detected = any("VSCODE" in key for key in os.environ)
-
-if vscode_detected:
+if any("VSCODE" in key for key in os.environ):
     exit(0)
+
 
 def return_colored_text(string, color):
     # Validate color
@@ -155,5 +157,5 @@ save_list_to_json(f"{directory}/done.json", done_images)
 
 os.system(f'neofetch --clean && neofetch --source "{selected_image}"')
 print(
-    f'{return_color_and_style("Image:", "#188CFD", "bold")}"{selected_image}" | {return_color_and_style("Done:", "#188CFD", "bold")}{len(done_images)}/{len(images_available)}\n',
+    f'{return_color_and_style("Image:", "#188CFD", "bold")}"{selected_image}" | {return_color_and_style("Done:", "#188CFD", "bold")} {len(done_images)}/{len(images_available)} | {return_color_and_style("Time Taken:", "#188CFD", "bold")} {round((time.time() - start_time) * (10**3), 2)} millisec\n',
 )
