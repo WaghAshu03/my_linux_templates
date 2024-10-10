@@ -5,3 +5,4 @@ chromium_scripts/Backup Files
 # Ignore any file that starts with 'test'
 test*
 temp*
+.zshrc_backup
