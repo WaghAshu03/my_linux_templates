@@ -6,7 +6,7 @@ chromium_scripts/Backup Files
 test*
 temp*
 
-# Fixed filed to ignore
+# Fixed files to ignore
 .zshrc_backup
 neofetch_images/history.json
 neofetch_images/done.json
