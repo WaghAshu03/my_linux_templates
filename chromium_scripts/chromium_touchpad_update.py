@@ -87,6 +87,7 @@ if not running_as_root():
 
 file_paths = [
     "/usr/share/applications/brave-browser.desktop",
+    "/usr/share/applications/chromium-browser.desktop"
 ]
 
 for file_path in file_paths:
