@@ -87,7 +87,7 @@ if not running_as_root():
 
 file_paths = [
     "/usr/share/applications/brave-browser.desktop",
-    "/usr/share/applications/chromium-browser.desktop"
+    "/usr/share/applications/chromium-browser.desktop",
 ]
 
 for file_path in file_paths:
@@ -95,10 +95,10 @@ for file_path in file_paths:
     file_name = file_path.split("/")[-1].split("\\")[-1]
 
     # print("=" * terminal_columns)
-    print(f"Processing: {file_name}\n")
+    print(f"Processing: {file_name}")
 
     if path.exists(file_path):
-        print(f"-> {file_path} path exist.")
+        print(f"    ✅ {file_path} path exist.")
 
         file_content = ""
         with open(file_path, "r") as f:
@@ -124,7 +124,7 @@ for file_path in file_paths:
         if file_content != updated_file_content:
             if not path.exists(f"{directory}/Backup Files"):
                 system(f"mkdir '{directory}/Backup Files'")
-                print(f"-> Created Directory: {directory}/Backup Files")
+                print(f"    ✅ Created Directory: {directory}/Backup Files")
 
             backup_file_path = f"{directory}/Backup Files/{get_formatted_time()} Backup-{get_random_string(5)}-{file_name}"
             while path.exists(backup_file_path):
@@ -132,32 +132,31 @@ for file_path in file_paths:
 
             with open(backup_file_path, "w") as f:
                 f.write(file_content)
-            print(f"-> Created Backup File: {backup_file_path}")
+            print(f"    ✅ Created Backup File: {backup_file_path}")
 
             if system(f"sudo rm {file_path}") == 0:
-                print(f"-> Successfully removed old desktop file")
+                print(f"    ✅ Successfully removed old desktop file")
             else:
-                print(f"-> Failed to remove old desktop file")
+                print(f"    ❌ Failed to remove old desktop file")
                 exit()
 
             if system("kbuildsycoca5") == 0:
-                print(f"-> Updated KDE Plasma")
+                print(f"    ✅ Updated KDE Plasma")
             else:
-                print(f"-> Failed to update KDE Plasma")
+                print(f"    ❌ Failed to update KDE Plasma")
 
             with open(file_path, "w") as f:
                 f.write(updated_file_content)
-            print(f"-> Updated {file_name}")
+            print(f"    ✅ Updated {file_name}")
 
             if system("kbuildsycoca5") == 0:
-                print(f"-> Updated KDE Plasma")
+                print(f"    ✅ Updated KDE Plasma")
             else:
-                print(f"-> Failed to update KDE Plasma")
-
+                print(f"    ❌ Failed to update KDE Plasma")
         else:
-            print("-> No updates needed")
+            print("    ✅ No updates needed")
     else:
-        print(f"-> {file_path} path do not exist.")
+        print(f"    ❌ {file_path} path do not exist.")
     print()
 
 # print("=" * terminal_columns)
