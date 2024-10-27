@@ -1,0 +1,67 @@
+[PIP Brave]
+Description=PIP Brave
+above=true
+aboverule=2
+title=Picture in picture
+titlematch=1
+wmclass=brave brave
+wmclasscomplete=true
+wmclassmatch=1
+
+[PIP Firefox]
+Description=PIP Firefox
+above=true
+aboverule=2
+title=Picture-in-Picture
+titlematch=1
+wmclass=firefox org.mozilla.firefox
+wmclasscomplete=true
+wmclassmatch=1
+
+[Settings for brave-browser Brave-browser]
+Description=Settings for brave-browser Brave-browser
+size=1230,724
+sizerule=3
+wmclass=brave-
+wmclasscomplete=true
+wmclassmatch=2
+
+[Settings for gnome-software org.gnome.Software]
+Description=Settings for gnome-software org.gnome.Software
+size=1045,659
+sizerule=3
+wmclass=gnome-software org.gnome.Software
+wmclasscomplete=true
+wmclassmatch=1
+
+[Settings for io.missioncenter.MissionCenter]
+Description=Settings for io.missioncenter.MissionCenter
+size=1109,693
+sizerule=3
+wmclass=io.missioncenter.MissionCenter
+wmclasscomplete=true
+wmclassmatch=2
+
+[Settings for konsole org.kde.konsole]
+Description=Settings for konsole org.kde.konsole
+size=998,618
+sizerule=3
+wmclass=konsole org.kde.konsole
+wmclasscomplete=true
+wmclassmatch=1
+
+[Settings for plasma-discover org.kde.discover]
+Description=Settings for plasma-discover org.kde.discover
+size=1021,683
+sizerule=3
+wmclass=plasma-discover org.kde.discover
+wmclasscomplete=true
+wmclassmatch=1
+
+[Settings for systemsettings systemsettings]
+Description=Settings for systemsettings systemsettings
+size=933,680
+sizerule=3
+wmclass=systemsettings systemsettings
+wmclasscomplete=true
+wmclassmatch=1
