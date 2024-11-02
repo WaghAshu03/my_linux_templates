@@ -1,4 +1,5 @@
 import glob
+import hashlib
 import json
 import os
 import time
@@ -116,9 +117,34 @@ def get_image_paths(directory):
     return image_paths
 
 
+def generate_image_fingerprint(image_path):
+    # Read only a portion of the file to minimize time expense
+    with open(image_path, "rb") as file:
+        # Read the first 1024 bytes for hashing
+        file_sample = file.read(1024)
+
+        # Get file metadata (like size in bytes)
+        # file_stat = file.stat()
+        # file_metadata = f"{file_stat.st_size}{file_stat.st_mtime}"
+
+        # Concatenate metadata and sample for a unique fingerprint
+        fingerprint_data = f"{file_sample}"
+
+        # Generate MD5 hash of the combined data
+        fingerprint = hashlib.md5(fingerprint_data.encode()).hexdigest()
+
+    return fingerprint
+
+
 # Example usage:
 directory = f"{os.path.dirname(os.path.abspath(__file__))}"
 images_available = get_image_paths(directory)
+
+for i in range(len(images_available)):
+    images_available[i] = (
+        f"{images_available[i]}/{generate_image_fingerprint(images_available[i])}"
+    )
+
 images_history = load_list_from_json(f"{directory}/history.json")
 done_images = load_list_from_json(f"{directory}/done.json")
 
@@ -153,6 +179,10 @@ selected_image = choice(images_active)
 
 done_images.append(selected_image)
 save_list_to_json(f"{directory}/done.json", done_images)
+
+selected_image = selected_image.split("/")
+selected_image.pop()
+selected_image = "/".join(selected_image)
 
 
 os.system(f'neofetch --clean && neofetch --source "{selected_image}"')
