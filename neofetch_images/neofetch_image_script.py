@@ -145,8 +145,8 @@ for i in range(len(images_available)):
         f"{images_available[i]}/{generate_image_fingerprint(images_available[i])}"
     )
 
-images_history = load_list_from_json(f"{directory}/history.json")
-done_images = load_list_from_json(f"{directory}/done.json")
+images_history = load_list_from_json(f"{directory}/.history.json")
+done_images = load_list_from_json(f"{directory}/.done.json")
 
 # check if there is any changes in images
 # if there is then reseting and starting new
@@ -154,7 +154,7 @@ if (len(images_available) == 0) or (sorted(images_available) != sorted(images_hi
     done_images = []
 
 # Saving New Images to History
-save_list_to_json(f"{directory}/history.json", images_available)
+save_list_to_json(f"{directory}/.history.json", images_available)
 
 # Removing all the done images so only active images are filtered
 images_active = []
@@ -178,14 +178,15 @@ for image in images_available:
 selected_image = choice(images_active)
 
 done_images.append(selected_image)
-save_list_to_json(f"{directory}/done.json", done_images)
+save_list_to_json(f"{directory}/.done.json", done_images)
 
 selected_image = selected_image.split("/")
 selected_image.pop()
 selected_image = "/".join(selected_image)
+script_time = round((time.time() - start_time) * (10**3), 2)
 
 
 os.system(f'neofetch --clean && neofetch --source "{selected_image}"')
 print(
-    f'{return_color_and_style("Image:", "#188CFD", "bold")}"{selected_image}" | {return_color_and_style("Done:", "#188CFD", "bold")} {len(done_images)}/{len(images_available)} | {return_color_and_style("Time Taken:", "#188CFD", "bold")} {round((time.time() - start_time) * (10**3), 2)} millisec\n',
+    f'{return_color_and_style("Image:", "#188CFD", "bold")}"{selected_image}" | {return_color_and_style("Done:", "#188CFD", "bold")} {len(done_images)}/{len(images_available)}\n{return_color_and_style("Time Taken(neofetch):", "#188CFD", "bold")} {round(round((time.time() - start_time) * (10**3), 2) - script_time, 2)}ms | {return_color_and_style("Time Taken(script):", "#188CFD", "bold")} {script_time}ms\n',
 )

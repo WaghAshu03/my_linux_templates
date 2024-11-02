@@ -153,8 +153,8 @@ for i in range(len(images_available)):
         f"{images_available[i]}/{generate_image_fingerprint(images_available[i])}"
     )
 
-images_history = load_list_from_json(f"{directory}/history.json")
-done_images = load_list_from_json(f"{directory}/done.json")
+images_history = load_list_from_json(f"{directory}/.history.json")
+done_images = load_list_from_json(f"{directory}/.done.json")
 cache_fastfetch = False
 
 # check if there is any changes in images
@@ -168,7 +168,7 @@ if sorted(images_available) != sorted(images_history):
         os.system(f"rm -r {os.path.expanduser('~/.cache/fastfetch/images')}")
 
 # Saving New Images to History
-save_list_to_json(f"{directory}/history.json", images_available)
+save_list_to_json(f"{directory}/.history.json", images_available)
 
 # Removing all the done images so only active images are filtered
 images_active = []
@@ -192,7 +192,7 @@ for image in images_available:
 selected_image = choice(images_active)
 
 done_images.append(selected_image)
-save_list_to_json(f"{directory}/done.json", done_images)
+save_list_to_json(f"{directory}/.done.json", done_images)
 
 selected_image = selected_image.split("/")
 selected_image.pop()

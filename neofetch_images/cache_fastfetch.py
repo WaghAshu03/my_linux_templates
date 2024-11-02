@@ -22,3 +22,4 @@ images_available = get_image_paths(directory)
 
 for i in range(len(images_available) * 2):
     os.system(f"python {directory}/fastfetch_image_script.py")
+    print("\n##### CACHING FASTFETCH #####")
