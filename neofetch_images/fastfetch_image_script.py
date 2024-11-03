@@ -208,8 +208,4 @@ print(
 )
 
 if cache_fastfetch:
-    start_time = time.time()
     os.system(f"python {directory}/cache_fastfetch.py")
-    print(
-        f"{return_color_and_style("Successfully Cached fastfetch images", "#0f0", "bold")} | {return_color_and_style("Time Taken(caching):", "#188CFD", "bold")} {round((time.time() - start_time) * (10**3), 2)}ms"
-    )
