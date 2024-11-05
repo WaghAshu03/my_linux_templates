@@ -12,6 +12,8 @@ if not os.path.exists(REPO_PATH):
     print("Invalid script path:", REPO_PATH)
     exit(0)
 
+print("✅ Updating Repo:", REPO_PATH)
+
 
 def run_command(command):
     """Helper function to run a shell command and return its output."""
