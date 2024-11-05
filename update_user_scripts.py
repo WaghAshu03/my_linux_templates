@@ -1,6 +1,10 @@
 import os
 import subprocess
 
+if not os.getuid() == 0:
+    print("Please Run this script with root priviledge")
+    exit()
+
 # Path to the repository
 REPO_PATH0 = os.path.join(
     os.path.expanduser(f"~{os.getenv('SUDO_USER')}"), "Templates"
