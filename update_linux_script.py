@@ -1,4 +1,4 @@
-from os import get_terminal_size, getuid, path, system
+from os import get_terminal_size, getenv, getuid, path, system
 
 
 def running_as_root() -> bool:
@@ -77,10 +77,11 @@ if not running_as_root():
 directory = f"{path.dirname(path.abspath(__file__))}"
 
 scripts = [
-    # "sudo dnf update && sudo dnf upgrade",
-    # f"sudo python {directory}/chromium_scripts/chromium_touchpad_update.py",
-    f"python ~/Templates/update_user_scripts.py",
+    "sudo dnf update && sudo dnf upgrade",
+    f"sudo python {directory}/chromium_scripts/chromium_touchpad_update.py",
+    f"python path.join(path.expanduser(f"~{getenv('SUDO_USER')}"), "Templates")",
 ]
+
 
 for i, script in enumerate(scripts):
     if i != 0:
