@@ -2,11 +2,24 @@ import os
 import subprocess
 
 # Path to the repository
-REPO_PATH = os.path.expanduser("~/Templates")  # Update with your actual repository path
+REPO_PATH0 = os.path.join(
+    os.path.expanduser(f"~{os.getenv('SUDO_USER')}"), "Templates"
+)  # Update with your actual repository path
+REPO_PATH1 = os.path.expanduser("~/Templates")
 
-if not os.path.exists(REPO_PATH):
-    print("Invalid script path:", REPO_PATH)
-    exit(0)
+REPO_PATH = ""
+
+if not os.path.exists(REPO_PATH0):
+    print("❌ Invalid script paths(primary):", REPO_PATH0)
+    print("    Using secondary path")
+
+    if not os.path.exists(REPO_PATH1):
+        print("❌ Invalid script path(secodary):", REPO_PATH1)
+        exit(0)
+    else:
+        REPO_PATH = REPO_PATH1
+else:
+    REPO_PATH = REPO_PATH0
 
 
 def run_command(command):
@@ -22,7 +35,7 @@ def check_for_updates():
     # Fetch the latest updates from the remote
     _, fetch_err, fetch_code = run_command(["git", "-C", REPO_PATH, "fetch", "--all"])
     if fetch_code != 0:
-        print(f"Error during fetch: {fetch_err}")
+        print(f"❌ Error during fetch: {fetch_err}")
         return False
 
     # Check if the local main branch is behind the remote
@@ -43,14 +56,14 @@ def update_repository():
         ["git", "-C", REPO_PATH, "reset", "--hard", "origin/main"]
     )
     if reset_code != 0:
-        print(f"Error during reset: {reset_err}")
+        print(f"❌ Error during reset: {reset_err}")
     else:
-        print("Repository successfully updated to match remote.")
+        print("✅ Repository successfully updated to match remote.")
 
 
 if __name__ == "__main__":
     if check_for_updates():
-        print("New updates found. Pulling changes...")
+        print("✅ New updates found. Pulling changes...")
         update_repository()
     else:
-        print("No updates available. Repository is already up-to-date.")
+        print("✅ No updates available. Repository is already up-to-date.")
