@@ -79,7 +79,7 @@ directory = f"{path.dirname(path.abspath(__file__))}"
 scripts = [
     #   "sudo dnf update && sudo dnf upgrade",
     #  f"sudo python {directory}/chromium_scripts/chromium_touchpad_update.py",
-    f"python {directory}/update_user_scripts",
+    f"python {directory}/update_user_scripts.py",
 ]
 
 
