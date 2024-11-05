@@ -81,7 +81,7 @@ scripts = [
     #  f"sudo python {directory}/chromium_scripts/chromium_touchpad_update.py",
     f"python {directory}/update_user_scripts.py",
 ]
-
+# test
 
 for i, script in enumerate(scripts):
     if i != 0:
