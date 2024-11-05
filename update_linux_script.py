@@ -81,7 +81,7 @@ scripts = [
     #    f"sudo python {directory}/chromium_scripts/chromium_touchpad_update.py",
     f"python {path.join(path.expanduser(f"~{getenv('SUDO_USER')}"), "Templates/update_user_scripts.py")}",
 ]
-# test 1
+# test 2
 
 
 for i, script in enumerate(scripts):
