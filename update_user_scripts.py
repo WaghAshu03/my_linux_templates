@@ -5,25 +5,12 @@ if not os.getuid() == 0:
     print("Please Run this script with root priviledge")
     exit()
 
-# Path to the repository
-REPO_PATH0 = os.path.join(
-    os.path.expanduser(f"~{os.getenv('SUDO_USER')}"), "Templates"
-)  # Update with your actual repository path
-REPO_PATH1 = os.path.expanduser("~/Templates")
 
-REPO_PATH = ""
+REPO_PATH = f"{os.path.dirname(os.path.abspath(__file__))}"
 
-if not os.path.exists(REPO_PATH0):
-    print("❌ Invalid script paths(primary):", REPO_PATH0)
-    print("    Using secondary path")
-
-    if not os.path.exists(REPO_PATH1):
-        print("❌ Invalid script path(secodary):", REPO_PATH1)
-        exit(0)
-    else:
-        REPO_PATH = REPO_PATH1
-else:
-    REPO_PATH = REPO_PATH0
+if not os.path.exists(REPO_PATH):
+    print("Invalid script path:", REPO_PATH)
+    exit(0)
 
 
 def run_command(command):

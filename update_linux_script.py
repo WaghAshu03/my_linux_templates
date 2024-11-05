@@ -77,9 +77,9 @@ if not running_as_root():
 directory = f"{path.dirname(path.abspath(__file__))}"
 
 scripts = [
-    "sudo dnf update && sudo dnf upgrade",
-    f"sudo python {directory}/chromium_scripts/chromium_touchpad_update.py",
-    f"python {path.join(path.expanduser(f"~{getenv('SUDO_USER')}"), "Templates/update_user_scripts.py")}",
+    #   "sudo dnf update && sudo dnf upgrade",
+    #  f"sudo python {directory}/chromium_scripts/chromium_touchpad_update.py",
+    f"python {directory}/update_user_scripts",
 ]
 
 
