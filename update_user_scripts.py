@@ -2,9 +2,7 @@ import os
 import subprocess
 
 # Path to the repository
-REPO_PATH = os.path.join(
-    os.path.expanduser(f"~{os.getenv('SUDO_USER')}"), "Templates"
-)  # Update with your actual repository path
+REPO_PATH = os.path.expanduser("~/Templates")  # Update with your actual repository path
 
 if not os.path.exists(REPO_PATH):
     print("Invalid script path:", REPO_PATH)
