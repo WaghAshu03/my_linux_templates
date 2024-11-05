@@ -1,5 +1,6 @@
 from os import get_terminal_size, getuid, path, system
 
+
 def running_as_root() -> bool:
     return getuid() == 0
 
@@ -76,8 +77,9 @@ if not running_as_root():
 directory = f"{path.dirname(path.abspath(__file__))}"
 
 scripts = [
-    "sudo dnf update && sudo dnf upgrade",
-    f"sudo python {directory}/chromium_scripts/chromium_touchpad_update.py",
+    # "sudo dnf update && sudo dnf upgrade",
+    # f"sudo python {directory}/chromium_scripts/chromium_touchpad_update.py",
+    f"python ~/Templates/update_user_scripts.py",
 ]
 
 for i, script in enumerate(scripts):
@@ -95,5 +97,5 @@ for i, script in enumerate(scripts):
 print("=" * get_terminal_size().columns)
 usr_input = input("Want to reboot? (y/N): ")
 
-if(usr_input == 'y' or usr_input == 'Y'):
-	system("reboot")
+if usr_input == "y" or usr_input == "Y":
+    system("reboot")
