@@ -188,5 +188,8 @@ script_time = round((time.time() - start_time) * (10**3), 2)
 
 os.system(f'neofetch --clean && neofetch --source "{selected_image}"')
 print(
-    f'{return_color_and_style("Image:", "#188CFD", "bold")}"{selected_image}" | {return_color_and_style("Done:", "#188CFD", "bold")} {len(done_images)}/{len(images_available)}\n{return_color_and_style("Time Taken(neofetch):", "#188CFD", "bold")} {round(round((time.time() - start_time) * (10**3), 2) - script_time, 2)}ms | {return_color_and_style("Time Taken(script):", "#188CFD", "bold")} {script_time}ms\n',
+    f'\n{return_color_and_style("Image:", "#188CFD", "bold")}"{selected_image}" | {return_color_and_style("Done:", "#188CFD", "bold")} {len(done_images)}/{len(images_available)}',
+)
+print(
+    f'{return_color_and_style("Time Taken(fastfetch):", "#188CFD", "bold")} {round(round((time.time() - start_time) * (10**3), 2) - script_time, 2)}ms | {return_color_and_style("Time Taken(script):", "#188CFD", "bold")} {script_time}ms | {return_color_and_style("Time Taken(Total):", "#188CFD", "bold")} {round((time.time() - start_time) * (10**3), 2)}ms\n',
 )
