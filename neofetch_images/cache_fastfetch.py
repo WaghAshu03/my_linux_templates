@@ -130,7 +130,6 @@ for i in range(len(images_available) * 3):
     print_at_bottom(
         f"CACHING FASTFETCH [{'#' * filled_columns}{' ' * (columns - filled_columns)}] {percent}%"
     )
-    # print()
 
 print(
     f"\n{return_color_and_style("Successfully Cached fastfetch images", "#0f0", "bold")} | {return_color_and_style("Time Taken(caching):", "#188CFD", "bold")} {round((time.time() - start_time) * (10**3), 2)}ms"
