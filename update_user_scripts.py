@@ -55,10 +55,8 @@ def update_repository():
 
 
 if __name__ == "__main__":
-    update_repository()
-    """
     if check_for_updates():
         print("✅ New updates found. Pulling changes...")
+        update_repository()
     else:
         print("✅ No updates available. Repository is already up-to-date.")
-    """
