@@ -1,3 +1,37 @@
+#!/usr/bin/env node
+
+// Helper function to parse arguments
+function parseArguments(args) {
+  const parsed = {
+    from: null,
+    subjects: [],
+    showYears: false,
+  };
+
+  for (let i = 0; i < args.length; i++) {
+    const arg = args[i];
+    if (arg === "--from") {
+      parsed.from = Number(args[++i]); // Get the next argument and convert to a number
+    } else if (arg === "--subjects") {
+      // Collect subjects as an array of strings
+      while (args[i + 1] && !args[i + 1].startsWith("--")) {
+        parsed.subjects.push(args[++i]);
+      }
+    } else if (arg === "--showYears") {
+      parsed.showYears = true; // Boolean flag, no additional value needed
+    }
+  }
+
+  return parsed;
+}
+
+// Parse the arguments passed to the script
+const args = process.argv.slice(2); // Ignore 'node' and script name
+const parsedArgs = parseArguments(args);
+const fromYears = parsedArgs.from == null ? 0 : parseInt(parsedArgs.from);
+const inpSubCode = parsedArgs.subjects;
+const showYears = Boolean(parsedArgs.showYears);
+
 const CN = {
   "Application Layer Protocol": [
     12, 2008, 2011, 2012, 2016, 2019, 2020, 2022, 2005, 2005, 2005, 2006, 2008,
@@ -821,48 +855,84 @@ const subjects = {
   "Theory of Computation": TOC,
   "Operating System": OS,
 
-  // "Discrete Math": combineSubjects({
-  //   DM_Combinatory,
-  //   DM_Graph_Theory,
-  //   DM_Math_Logic,
-  //   DM_Set_Theory_And_Algebra,
-  // }),
+  "Discrete Math": combineSubjects({
+    DM_Combinatory,
+    DM_Graph_Theory,
+    DM_Math_Logic,
+    DM_Set_Theory_And_Algebra,
+  }),
 
   "Discrete Math: Combinatory": DM_Combinatory,
   "Discrete Math: Graph Theory": DM_Graph_Theory,
   "Discrete Math: Mathematical Logic": DM_Math_Logic,
   "Discrete Math: Set Theory & Algebra": DM_Set_Theory_And_Algebra,
 
-  // "Engineering Math": combineSubjects({
-  //   EM_Calculus,
-  //   EM_Linear_Algebra,
-  //   EM_Probability,
-  // }),
+  "Engineering Math": combineSubjects({
+    EM_Calculus,
+    EM_Linear_Algebra,
+    EM_Probability,
+  }),
 
   "Engineering Math: Calculus": EM_Calculus,
   "Engineering Math: Linear Algebra": EM_Linear_Algebra,
   "Engineering Math: Probability": EM_Probability,
 };
 
+const subject_code = {
+  Algorithm: "algo",
+  "Compiler Design": "cd",
+  "Computer Networks": "cn",
+  Databases: "dbms",
+  "Digital Logic": "dl",
+  "Computer Organization & Architecture": "coa",
+  "C Programming": "c",
+  "Data Structures": "ds",
+  "Theory of Computation": "toc",
+  "Operating System": "os",
+
+  "Discrete Math": "dm_only",
+  "Engineering Math": "em_only",
+
+  "Discrete Math: Combinatory": "dm",
+  "Discrete Math: Graph Theory": "dm",
+  "Discrete Math: Mathematical Logic": "dm",
+  "Discrete Math: Set Theory & Algebra": "dm",
+
+  "Engineering Math: Calculus": "em",
+  "Engineering Math: Linear Algebra": "em",
+  "Engineering Math: Probability": "em",
+};
+
 subjectName = Object.keys(subjects);
 all_pyq = 0;
 
 // const queFrom = "all";
-const queFrom = 1995;
+const queFrom = fromYears;
 for (let i = 0; i < subjectName.length; i++) {
+  const currentSubCode = subject_code[subjectName[i]];
+  if (!inpSubCode.includes(currentSubCode)) continue;
   console.log("Subject:", subjectName[i]);
   console.log("------------------------------------------------");
   const subject = returnTopicPercetage(subjects[subjectName[i]], queFrom);
   const topics = Object.keys(subject);
   let total = 0;
   for (let j = 0; j < topics.length; j++) {
+    const topicName = topics[j];
+    const topicQue = subject[topics[j]][0];
+    const topicPercent = subject[topics[j]][1];
+    const topicDetails = JSON.parse(JSON.stringify(subject[topics[j]]));
+    topicDetails.shift();
+    topicDetails.shift();
+
     console.log(
       j + 1 + ".",
-      topics[j],
+      topicName,
       "|",
-      subject[topics[j]][0],
+      topicQue,
       "|",
-      subject[topics[j]][1]
+      topicPercent,
+      showYears ? "|" : "",
+      showYears ? topicDetails : ""
     );
 
     total = total + subject[topics[j]][0];
