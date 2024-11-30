@@ -80,7 +80,7 @@ scripts = [
     "sudo dnf update && sudo dnf upgrade",
     f"sudo python {directory}/chromium_scripts/chromium_touchpad_update.py",
     f"python {directory}/update_user_scripts.py",
-    f"sudo python {directory}/remove_sudo_priviledge.py",
+    # f"sudo python {directory}/remove_sudo_priviledge.py",
 ]
 
 for i, script in enumerate(scripts):
