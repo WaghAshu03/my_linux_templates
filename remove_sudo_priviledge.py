@@ -7,6 +7,8 @@ if not os.getuid() == 0:
 
 # Get the username from the SUDO_USER environment variable
 username = os.getenv("SUDO_USER")
+# Example usage
+folder_path = f"{os.path.dirname(os.path.abspath(__file__))}"
 
 # If running with sudo, this variable will be set, otherwise fallback to the current user
 if not username:
@@ -15,6 +17,13 @@ if not username:
 
     uid = os.geteuid()
     username = pwd.getpwuid(uid).pw_name
+
+if username == "root":
+    temp_path = folder_path.split("/")
+    if temp_path[1] == "home" and temp_path[2]:
+        username = temp_path[2]
+
+updated_something = False
 
 
 def remove_sudo_privileges(folder_path):
@@ -45,6 +54,7 @@ def remove_sudo_privileges(folder_path):
                                 file_path,
                                 f"from root to {username}",
                             )
+                            updated_something = True
                         else:
                             print("❌ Error Changing ownership of", file_path)
                 except PermissionError:
@@ -73,6 +83,7 @@ def remove_sudo_privileges(folder_path):
                                 dir_path,
                                 f"from root to {username}",
                             )
+                            updated_something = True
                         else:
                             print("❌ Error Changing ownership of", dir_path)
                 except PermissionError:
@@ -88,10 +99,10 @@ def remove_sudo_privileges(folder_path):
         print(f"An error occurred: {main_error}")
 
 
-# Example usage
-folder_path = f"{os.path.dirname(os.path.abspath(__file__))}"
-
 if os.path.exists(folder_path):
     remove_sudo_privileges(folder_path)
 else:
     print(f"❌ {folder_path} does not exist")
+
+if not updated_something:
+    print("✅ No updates needed")
