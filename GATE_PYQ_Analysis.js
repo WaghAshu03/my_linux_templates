@@ -890,8 +890,8 @@ const subject_code = {
   "Theory of Computation": "toc",
   "Operating System": "os",
 
-  "Discrete Math": "dm_only",
-  "Engineering Math": "em_only",
+  "Discrete Math": "dm_total",
+  "Engineering Math": "em_total",
 
   "Discrete Math: Combinatory": "dm",
   "Discrete Math: Graph Theory": "dm",
@@ -902,6 +902,17 @@ const subject_code = {
   "Engineering Math: Linear Algebra": "em",
   "Engineering Math: Probability": "em",
 };
+
+const combinedSubject_keys = ["dm_total", "em_total"];
+
+if (inpSubCode.length == 0) {
+  const subject_code_values = Object.values(subject_code);
+
+  for (let i = 0; i < subject_code_values.length; i++) {
+    if (!combinedSubject_keys.includes(subject_code_values[i]))
+      inpSubCode.push(subject_code_values[i]);
+  }
+}
 
 subjectName = Object.keys(subjects);
 all_pyq = 0;
@@ -932,7 +943,7 @@ for (let i = 0; i < subjectName.length; i++) {
       "|",
       topicPercent,
       showYears ? "|" : "",
-      showYears ? topicDetails : ""
+      showYears ? topicDetails.sort((a, b) => a - b) : ""
     );
 
     total = total + subject[topics[j]][0];
