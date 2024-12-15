@@ -12,6 +12,10 @@ function parseArguments(args) {
     const arg = args[i];
     if (arg === "--from") {
       parsed.from = Number(args[++i]); // Get the next argument and convert to a number
+    } else if (arg === "--to") {
+      parsed.to = Number(args[++i]); // Get the next argument and convert to a number
+    } else if (arg === "--year") {
+      parsed.exactYear = Number(args[++i]); // Get the next argument and convert to a number
     } else if (arg === "--subjects") {
       // Collect subjects as an array of strings
       while (args[i + 1] && !args[i + 1].startsWith("--")) {
@@ -19,6 +23,8 @@ function parseArguments(args) {
       }
     } else if (arg === "--showYears") {
       parsed.showYears = true; // Boolean flag, no additional value needed
+    } else if (arg === "--onlyTotal") {
+      parsed.onlyTotal = true; // Boolean flag, no additional value needed
     }
   }
 
@@ -28,9 +34,22 @@ function parseArguments(args) {
 // Parse the arguments passed to the script
 const args = process.argv.slice(2); // Ignore 'node' and script name
 const parsedArgs = parseArguments(args);
-const fromYears = parsedArgs.from == null ? 0 : parseInt(parsedArgs.from);
+let fromYears = parsedArgs.from == null ? 0 : parseInt(parsedArgs.from);
+let toYears = parsedArgs.to == null ? 10000 : parseInt(parsedArgs.to);
+let exactYear =
+  parsedArgs.exactYear == null ? -1 : parseInt(parsedArgs.exactYear);
 const inpSubCode = parsedArgs.subjects;
 const showYears = Boolean(parsedArgs.showYears);
+const onlyTotal = Boolean(parsedArgs.onlyTotal);
+
+if (fromYears > toYears) {
+  let temp = fromYears;
+  fromYears = toYears;
+  toYears = temp;
+}
+if (exactYear && exactYear >= 1950) {
+  fromYears = toYears = exactYear;
+}
 
 const CN = {
   "Application Layer Protocol": [
@@ -733,14 +752,7 @@ const verifySubjectFault = (subject) => {
   return faultFound;
 };
 
-const countTotalQuestions = (subject, year = "all") => {
-  if (year == "all") year = 0;
-
-  if (typeof year != "number") {
-    console.log("Invalid Year Format:", year, typeof year);
-    return null;
-  }
-
+const countTotalQuestions = (subject) => {
   if (verifySubjectFault(subject)) return null;
 
   const keys = Object.keys(subject);
@@ -752,7 +764,7 @@ const countTotalQuestions = (subject, year = "all") => {
 
     for (let j = 1; j < value.length; j++) {
       const queYear = value[j];
-      if (queYear >= year) total += 1;
+      if (queYear >= fromYears && queYear <= toYears) total += 1;
     }
   }
   return total;
@@ -777,9 +789,9 @@ function sortTopicsByQuestions(subject) {
   return sortedSubject;
 }
 
-const returnTopicPercetage = (subject, year = "all") => {
-  const numOfQue = countTotalQuestions(subject, year);
-  if (year == "all") year = 0;
+const returnTopicPercetage = (subject) => {
+  const numOfQue = countTotalQuestions(subject);
+
   if (typeof numOfQue != "number") {
     return null;
   }
@@ -794,13 +806,15 @@ const returnTopicPercetage = (subject, year = "all") => {
 
     for (let j = 1; j < value.length; j++) {
       const queYear = value[j];
-      if (queYear >= year) topicQue.push(queYear);
+      if (queYear >= fromYears && queYear <= toYears) topicQue.push(queYear);
     }
+
+    // if (topicQue.length == 0) topicQue.push(value[1]);
 
     if (topicQue.length > 0) {
       updatedSubject[key] = [
         topicQue.length,
-        `${round((topicQue.length * 100) / numOfQue)}%`,
+        `${value.length - 1} | ${round((topicQue.length * 100) / numOfQue)}%`,
         ...topicQue,
       ];
     }
@@ -879,7 +893,7 @@ const subjects = {
 };
 
 const subject_code = {
-  Algorithm: "algo",
+  // Algorithm: "algo",
   "Compiler Design": "cd",
   "Computer Networks": "cn",
   Databases: "dbms",
@@ -917,12 +931,20 @@ if (inpSubCode.length == 0) {
 subjectName = Object.keys(subjects);
 all_pyq = 0;
 
+function repeatSpaces(n) {
+  let temp = "";
+  for (let i = 0; i < n; i++) {
+    temp += "";
+  }
+  return temp;
+}
+
 // const queFrom = "all";
 const queFrom = fromYears;
 for (let i = 0; i < subjectName.length; i++) {
   const currentSubCode = subject_code[subjectName[i]];
   if (!inpSubCode.includes(currentSubCode)) continue;
-  console.log("Subject:", subjectName[i]);
+  console.log(i + 1, "Subject:", subjectName[i]);
   console.log("------------------------------------------------");
   const subject = returnTopicPercetage(subjects[subjectName[i]], queFrom);
   const topics = Object.keys(subject);
@@ -935,16 +957,18 @@ for (let i = 0; i < subjectName.length; i++) {
     topicDetails.shift();
     topicDetails.shift();
 
-    console.log(
-      j + 1 + ".",
-      topicName,
-      "|",
-      topicQue,
-      "|",
-      topicPercent,
-      showYears ? "|" : "",
-      showYears ? topicDetails.sort((a, b) => a - b) : ""
-    );
+    if (!onlyTotal)
+      console.log(
+        `${j + 1 < 10 ? " " : ""}${j + 1}.`,
+        topicName,
+        repeatSpaces(50 - topicName.length),
+        `|${topicQue < 10 ? " " : ""}`,
+        topicQue,
+        "of",
+        topicPercent,
+        showYears ? "|" : "",
+        showYears ? topicDetails.sort((a, b) => a - b) : ""
+      );
 
     total = total + subject[topics[j]][0];
   }
