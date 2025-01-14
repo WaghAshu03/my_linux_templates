@@ -69,5 +69,3 @@ while True:
     print(format_minutes_to_time(total_min))
     print("-" * 20)
     print()
-
-

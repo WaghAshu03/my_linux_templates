@@ -126,14 +126,11 @@ const subjects = {
 
 const topics = Object.keys(subjects);
 
-const ceil = (n) => {
-  const intVal = parseInt(n);
-  if (intVal == n) return n;
-  else return parseInt(n) + 1;
-};
+const ceil = (n) => n - (n % 1) + (n >= 0 ? (n % 1 > 0 ? 1 : 0) : 0);
+const floor = (n) => n - (n % 1) - (n >= 0 ? 0 : 1);
 
 let total = 0;
-let ratio = 0.5;
+let ratio = 1 / 5.5;
 for (let i = 0; i < topics.length; i++) {
   const topic = topics[i];
 
