@@ -121,7 +121,7 @@ const subjects = {
   Analytical_Aptitude,
   Quantitative_Aptitude,
   Spatial_Aptitude,
-  Verbal_Aptitude,
+  // Verbal_Aptitude,
 };
 
 const topics = Object.keys(subjects);
