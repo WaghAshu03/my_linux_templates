@@ -40,8 +40,27 @@ observer.observe(document.body, config);
 
 // Run initially to handle the first load
 convertShortsLinks();
+setTimeout(() => {
+  document.querySelector('[title="Shorts"]').style.display = "none";
+}, 0);
 
 redirectShortsToWatch();
 setInterval(() => {
   redirectShortsToWatch();
+
+  document.querySelector('[title="Shorts"]').style.display = "none";
 }, 500);
+
+// --------------------------------------------------
+// Create a <style> element
+const style = document.createElement("style");
+
+// Add CSS rules as text content
+style.textContent = `
+ytd-rich-grid-renderer, ytd-watch-next-secondary-results-renderer{
+  display: none;
+}
+`;
+
+// Append the <style> element to the <head>
+document.head.appendChild(style);
