@@ -40,15 +40,25 @@ observer.observe(document.body, config);
 
 // Run initially to handle the first load
 convertShortsLinks();
-setTimeout(() => {
-  document.querySelector('[title="Shorts"]').style.display = "none";
-}, 0);
 
-redirectShortsToWatch();
-setInterval(() => {
-  redirectShortsToWatch();
+const runInIntervals = (inpFunc, interval) => {
+  setTimeout(inpFunc, 0);
+  setInterval(inpFunc, interval);
+};
 
+runInIntervals(() => {
   document.querySelector('[title="Shorts"]').style.display = "none";
+
+  document.querySelector("ytd-rich-grid-renderer").style.display = [
+    "https://www.youtube.com/",
+    "https://www.youtube.com",
+    "www.youtube.com/",
+    "www.youtube.com",
+    "youtube.com/",
+    "youtube.com",
+  ].includes(window.location.href)
+    ? "none"
+    : "flex";
 }, 500);
 
 // --------------------------------------------------
@@ -57,10 +67,20 @@ const style = document.createElement("style");
 
 // Add CSS rules as text content
 style.textContent = `
-ytd-rich-grid-renderer, ytd-watch-next-secondary-results-renderer{
+${
+  [
+    "https://www.youtube.com/",
+    "https://www.youtube.com",
+    "www.youtube.com/",
+    "www.youtube.com",
+    "youtube.com/",
+    "youtube.com",
+  ].includes(window.location.href)
+    ? "ytd-rich-grid-renderer,"
+    : ""
+} ytd-watch-next-secondary-results-renderer{
   display: none;
 }
 `;
 
-// Append the <style> element to the <head>
 document.head.appendChild(style);
