@@ -46,7 +46,10 @@ const runInIntervals = (inpFunc, interval) => {
   setInterval(inpFunc, interval);
 };
 
+redirectShortsToWatch();
 runInIntervals(() => {
+  redirectShortsToWatch();
+
   document.querySelector('[title="Shorts"]').style.display = "none";
 
   document.querySelector("ytd-rich-grid-renderer").style.display = [
@@ -59,7 +62,7 @@ runInIntervals(() => {
   ].includes(window.location.href)
     ? "none"
     : "flex";
-}, 500);
+}, 250);
 
 // --------------------------------------------------
 // Create a <style> element
