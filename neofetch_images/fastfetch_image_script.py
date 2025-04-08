@@ -204,10 +204,11 @@ os.system(
 )
 
 print(
-    f'\n{return_color_and_style("Image:", "#188CFD", "bold")}"{selected_image}" | {return_color_and_style("Done:", "#188CFD", "bold")} {len(done_images)}/{len(images_available)}',
+    f'\n{return_color_and_style("Image:", "#188CFD", "bold")}{selected_image.split("/")[-1]} | {return_color_and_style("Done:", "#188CFD", "bold")} {len(done_images)}/{len(images_available)}',
+    end=" | ",
 )
 print(
-    f'{return_color_and_style("Time Taken(fastfetch):", "#188CFD", "bold")} {round(round((time.time() - start_time) * (10**3), 2) - script_time, 2)}ms | {return_color_and_style("Time Taken(script):", "#188CFD", "bold")} {script_time}ms | {return_color_and_style("Time Taken(Total):", "#188CFD", "bold")} {round((time.time() - start_time) * (10**3), 2)}ms\n',
+    f'{return_color_and_style("Time Taken:", "#188CFD", "bold")} {"{"}fastfetch: {round(round((time.time() - start_time) * (10**3), 2) - script_time, 2)}ms, script: {script_time}ms, total: {round((time.time() - start_time) * (10**3), 2)}ms{"}"}\n',
 )
 
 if cache_fastfetch:

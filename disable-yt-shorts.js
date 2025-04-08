@@ -10,6 +10,8 @@ function convertShortsLinks() {
   shortLinks.forEach((link) => {
     const code = link.href.split("/shorts/")[1].split("?")[0]; // Extract the video code
     link.href = `https://www.youtube.com/watch?v=${code}`;
+    link.onclick = () => {};
+    link.target = "_blank";
   });
 }
 
@@ -62,7 +64,9 @@ runInIntervals(() => {
   ].includes(window.location.href)
     ? "none"
     : "flex";
-}, 250);
+
+  console.log();
+}, 350);
 
 // --------------------------------------------------
 // Create a <style> element

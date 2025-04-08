@@ -14,3 +14,4 @@ neofetch_images/.history.json
 neofetch_images/.done.json
 
 .vscode
+/__pycache__
